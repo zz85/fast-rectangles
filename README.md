@@ -11,7 +11,7 @@ Rational:
 - For various reasons, you may want to find a most convinent approach way to draw rectangles. In [Space Radar](github.com/zz85/space-radar), I find myself having > 100K rectanges to paint at times, which is why I'm trying to find which other way I can paint triangles.
 
 Rules:
-- Canvas or WebGL (three.js) may be used
+- DOM, CSS, Canvas, or WebGL (three.js, stackgl or other libraries) may be used
 - Stroke them
 - Fill them
 - Rectangle should be updatable by JS
@@ -19,3 +19,7 @@ Rules:
 - They are in units as fraction of the screen size (0..1)
 - Each draw frame should be within 16.67s (60fps)
 - Goal is to see 
+
+
+## Current Results
+1. Canvas - 7000ms 
