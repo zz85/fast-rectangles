@@ -1,0 +1,3 @@
+How many rectangles can you draw in 5 seconds?
+
+What is the fastest way to draw them?
