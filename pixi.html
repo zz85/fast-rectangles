@@ -10,26 +10,33 @@
 		var rafs = 0;
 		var rects = 0;
 
-		// var renderer = new PIXI.CanvasRenderer(WIDTH, HEIGHT);
+		var renderer = new PIXI.CanvasRenderer(WIDTH, HEIGHT);
 
-		var renderer = new PIXI.WebGLRenderer(WIDTH, HEIGHT);
+		// var renderer = new PIXI.WebGLRenderer(WIDTH, HEIGHT);
 		document.body.appendChild(renderer.view);
 
 		var stage = new PIXI.Container();
 
 
-		var BATCH = 5000;
+		var BATCH = 9000;
 		var sprites = [];
 
 		for (var i = 0; i < BATCH; i++) {
-
-			var graphics = new PIXI.Graphics();
 
 			var x = Math.random() * WIDTH;
 			var y = Math.random() * HEIGHT;
 
 			var w = Math.random() * WIDTH / 4;
 			var h = Math.random() * HEIGHT / 4;
+
+
+			// Not sure how to use this...
+			// var graphics = new PIXI.Rectangle(x, y, w, h)
+
+			/**/
+			var graphics = new PIXI.Graphics();
+
+
 
 			graphics.beginFill(0xffeeff);
 			graphics.lineStyle(1, 0x000000, 1);
@@ -45,8 +52,10 @@
 			// graphics.lineTo(x, y);
 			// graphics.endFill();
 
-			stage.addChild(graphics);
 
+
+
+			stage.addChild(graphics);
 			sprites.push(graphics);
 
 		}
@@ -57,7 +66,22 @@
 			rects += BATCH;
 
 			for (var i = 0; i < BATCH; i++) {
-				sprites[i].drawRect(x, y, w, h);
+				var x = Math.random() * WIDTH;
+				var y = Math.random() * HEIGHT;
+
+				var w = Math.random() * WIDTH / 4;
+				var h = Math.random() * HEIGHT / 4;
+
+				// sprites[i].drawRect(x, y, w, h);
+
+				// sprites[i].scale.x = Math.random();
+				// sprites[i].scale.y = Math.random();
+
+				var sprite = sprites[i];
+				sprite.position.x = x;
+				sprite.position.y = y;
+				sprite.width = w;
+				sprite.height = h;
 			}
 
 			renderer.render(stage);
