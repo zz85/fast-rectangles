@@ -4,8 +4,8 @@
 		// Experiment 1. Using Canvas 2D
 
 		var canvas = document.createElement('canvas');
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
+		canvas.width = 1024; // window.innerWidth;
+		canvas.height = 768; // window.innerHeight;
 
 		var ctx = canvas.getContext('2d');
 
@@ -51,15 +51,15 @@
 			if (lapsed < 5000) {
 				requestAnimationFrame(run);
 			} else {
-				console.log('Done!!');
+				console.timeEnd('run');
 				console.log('Number of Rafs', rafs);
 				console.log('Time per Rafs', (lapsed / rafs).toFixed(2), 'ms');
 
 				console.log('Total Rects', rects);
 				console.log('Rects / second', (rects / lapsed * 1000).toFixed(2));
 
-				console.log('Rects in 16.67ms', (rects / lapsed * 60).toFixed(2));
-				console.timeEnd('run');
+				console.log('Rects / 16.67ms', (rects / lapsed * 60).toFixed(2));
+				console.log('Done!!');
 			}
 		}
 
