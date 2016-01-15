@@ -22,4 +22,4 @@ Rules:
 
 
 ## Current Results
-1. Canvas - 7000ms 
+1. Canvas - ~6.7K rectangles per 60fps frame 
