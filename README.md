@@ -1,7 +1,12 @@
 ## Fastest Rectangles
 
-How many rectangles can you draw in 5 seconds?
-What is the fastest way to draw them?
+Some thoughts:
+
+- How many rectangles can you draw in 5 seconds?
+- What is the fastest way to draw them?
+
+So maybe the Challenge:
+- what's the fastest approach to draw 1 million rectangles?
 
 Rules:
 - Canvas or WebGL (three.js) may be used

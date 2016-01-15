@@ -1,0 +1,30 @@
+<html>
+<body>
+	<script>
+		// Experiment 1. Using Canvas 2D
+
+
+		var canvas = document.createElement('canvas');
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		var timeStart
+
+		document.body.appendChild(canvas);
+
+		function draw() {
+			requestAnimationFrame(draw)
+
+			// Write Code here
+			
+		}
+
+		function start() {
+			timeStart = performance.now();
+			requestAnimationFrame(draw)
+		}
+
+
+	</script>
+</body>
+</html>
