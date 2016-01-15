@@ -23,3 +23,4 @@ Rules:
 
 ## Current Results
 1. Canvas - ~6.7K rectangles per 60fps frame 
+2. Pixi - 7K ??
