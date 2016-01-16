@@ -32,3 +32,10 @@ WebGl Renderer
    - shared geometry - 7.6K
    - shared material - 9K (3K for canvas renderer)
    - Add rect strokes - 5.6K
+
+## To come
+
+- Rects using a shared Three.js geometry
+- Buffered Geometry
+- Instanced Geometry
+- Using point sprites
