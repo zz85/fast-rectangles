@@ -24,7 +24,7 @@ Rules:
 
 These numbers are estimated number of triangles that can be drawn in a single 60fps frame (which has only 16.67ms rendering time)
 
-0. Headless - (overheads of Math.random) 300K
+0. Headless - (overheads of Math.random) 76K
 1. Canvas - ~6.7K rectangles per 60fps frame
 2. PixiJS - 11K Canvas Renderer, 9K WebGL Renderer
 3. PixiJS - Single graphics. 6.5K WebGL, 8K Canvas
