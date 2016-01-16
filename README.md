@@ -21,6 +21,14 @@ Rules:
 - Goal is to see compare the different approaches
 
 ## Current Results
+0. Headless - overheads of Math.random 300K
 1. Canvas - ~6.7K rectangles per 60fps frame
 2. PixiJS - 11K Canvas Renderer, 9K WebGL Renderer
 3. PixiJS - Single graphics. 6.5K WebGL, 8K Canvas
+4. Three.js (Rect as mesh)
+(fill only, no lines)
+WebGl Renderer
+   - each mesh as individual geometry  - 3K
+   - shared geometry - 7.6K
+   - shared material - 9K (3K for canvas renderer)
+   - Add rect strokes - 5.6K
