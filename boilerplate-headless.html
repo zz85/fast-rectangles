@@ -1,0 +1,71 @@
+<html>
+<body>
+	<script>
+		// Experiment 0. Boilerplate, headless rendering
+
+		var WIDTH = 1024;
+		var HEIGHT = 768;
+		var timeStart;
+		var rafs = 0;
+		var rects = 0;
+
+
+		var BATCH = 100000;
+		var sprites = [];
+
+
+		function draw() {
+
+			rects += BATCH;
+
+
+			var haha = 0;
+			for (var i = 0; i < BATCH; i++) {
+
+				var x = Math.random() * WIDTH;
+				var y = Math.random() * HEIGHT;
+
+				var w = Math.random() * WIDTH / 4;
+				var h = Math.random() * HEIGHT / 4;
+
+				haha += x + y - w - h; // just so JS doesn't skip this unused block smartly
+			}
+
+		}
+
+		function run() {
+			rafs++
+
+			var now = performance.now();
+
+			draw();
+
+			var lapsed = now - timeStart;
+			if (lapsed < 5000) {
+				requestAnimationFrame(run);
+			} else {
+				console.timeEnd('run');
+				console.log('Number of Rafs', rafs);
+				console.log('Time per Rafs', (lapsed / rafs).toFixed(2), 'ms');
+
+				console.log('Total Rects', rects);
+				console.log('Rects / second', (rects / lapsed * 1000).toFixed(2));
+
+				console.log('Rects / 16.67ms', (rects / lapsed * 60).toFixed(2));
+				console.log('Done!!');
+			}
+		}
+
+		function start() {
+			console.log('Test start!');
+			timeStart = performance.now();
+			console.time('run');
+
+			run();
+		}
+
+		setTimeout(start, 500);
+
+	</script>
+</body>
+</html>
