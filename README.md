@@ -18,7 +18,7 @@ Rules:
 - Rectangles are defined by (x, y, w, h)
 - They are in units as fraction of the screen size (0..1)
 - Each draw frame should be within 16.67s (60fps)
-- Goal is to see 
+- Goal is to see compare the different approaches
 
 
 ## Current Results
