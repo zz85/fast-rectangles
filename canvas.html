@@ -1,5 +1,6 @@
 <html>
 <body>
+	<script src="boilerplate.js"></script>
 	<script>
 		// Experiment 1. Using Canvas 2D
 
@@ -9,9 +10,6 @@
 
 		var ctx = canvas.getContext('2d');
 
-		var timeStart;
-		var rafs = 0;
-		var rects = 0;
 
 		document.body.appendChild(canvas);
 
@@ -20,7 +18,7 @@
 
 			ctx.strokeStyle = 'black';
 			ctx.fillStyle = 'white';
-			for (var i = 0; i < 7000; i++) {
+			for (var i = 0; i < 2500; i++) {
 
 				ctx.beginPath()
 
@@ -38,37 +36,6 @@
 				rects++;
 			}
 
-		}
-
-		function run() {
-			rafs++
-
-			var now = performance.now();
-
-			draw();
-
-			var lapsed = now - timeStart;
-			if (lapsed < 5000) {
-				requestAnimationFrame(run);
-			} else {
-				console.timeEnd('run');
-				console.log('Number of Rafs', rafs);
-				console.log('Time per Rafs', (lapsed / rafs).toFixed(2), 'ms');
-
-				console.log('Total Rects', rects);
-				console.log('Rects / second', (rects / lapsed * 1000).toFixed(2));
-
-				console.log('Rects / 16.67ms', (rects / lapsed * 60).toFixed(2));
-				console.log('Done!!');
-			}
-		}
-
-		function start() {
-			console.log('Test start!');
-			timeStart = performance.now();
-			console.time('run');
-
-			run();
 		}
 
 		setTimeout(start, 500);

@@ -1,15 +1,9 @@
 <html>
 <body>
 	<script src="../node_modules/pixi.js/bin/pixi.js"></script>
+	<script src="boilerplate.js"></script>
 	<script>
 		// Experiment 2. Using pixi library
-
-		var WIDTH = 1024;
-		var HEIGHT = 768;
-		var timeStart;
-		var rafs = 0;
-		var rects = 0;
-
 		var renderer = new PIXI.CanvasRenderer(WIDTH, HEIGHT);
 
 		// var renderer = new PIXI.WebGLRenderer(WIDTH, HEIGHT);
@@ -18,7 +12,7 @@
 		var stage = new PIXI.Container();
 
 
-		var BATCH = 9000;
+		var BATCH = 2700;
 		var sprites = [];
 
 		for (var i = 0; i < BATCH; i++) {
@@ -85,37 +79,6 @@
 			}
 
 			renderer.render(stage);
-		}
-
-		function run() {
-			rafs++
-
-			var now = performance.now();
-
-			draw();
-
-			var lapsed = now - timeStart;
-			if (lapsed < 5000) {
-				requestAnimationFrame(run);
-			} else {
-				console.timeEnd('run');
-				console.log('Number of Rafs', rafs);
-				console.log('Time per Rafs', (lapsed / rafs).toFixed(2), 'ms');
-
-				console.log('Total Rects', rects);
-				console.log('Rects / second', (rects / lapsed * 1000).toFixed(2));
-
-				console.log('Rects / 16.67ms', (rects / lapsed * 60).toFixed(2));
-				console.log('Done!!');
-			}
-		}
-
-		function start() {
-			console.log('Test start!');
-			timeStart = performance.now();
-			console.time('run');
-
-			run();
 		}
 
 		setTimeout(start, 500);
