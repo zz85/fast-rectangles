@@ -24,4 +24,4 @@ Rules:
 ## Current Results
 1. Canvas - ~6.7K rectangles per 60fps frame 
 2. PixiJS - 11K Canvas Renderer, 9K WebGL Renderer
-3. PixiJS - Single graphics. 6.5K Canvas, 8K WebGL
+3. PixiJS - Single graphics. 6.5K WebGL, 8K Canvas
