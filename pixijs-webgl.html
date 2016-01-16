@@ -1,0 +1,95 @@
+<html>
+<body>
+	<script src="../node_modules/pixi.js/bin/pixi.js"></script>
+	<script>
+		// Experiment 2b. Using pixi library with WebGL + single sprite
+
+		var WIDTH = 1024;
+		var HEIGHT = 768;
+		var timeStart;
+		var rafs = 0;
+		var rects = 0;
+
+		// var renderer = new PIXI.CanvasRenderer(WIDTH, HEIGHT);
+
+		var renderer = new PIXI.WebGLRenderer(WIDTH, HEIGHT);
+		document.body.appendChild(renderer.view);
+
+		var stage = new PIXI.Container();
+
+
+		var BATCH = 8000;
+		var sprites = [];
+
+		var graphics = new PIXI.Graphics();
+
+		stage.addChild(graphics);
+
+
+		function draw() {
+
+			rects += BATCH;
+
+			graphics.clear();
+			graphics.beginFill(0xffeeff);
+			graphics.lineStyle(1, 0x000000, 1);
+
+			for (var i = 0; i < BATCH; i++) {
+
+				var x = Math.random() * WIDTH;
+				var y = Math.random() * HEIGHT;
+
+				var w = Math.random() * WIDTH / 4;
+				var h = Math.random() * HEIGHT / 4;
+
+				graphics.drawRect(x, y, w, h);
+
+				// This is slower
+				// graphics.moveTo(x, y);
+				// graphics.lineTo(x + w, y);
+				// graphics.lineTo(x + w, y + h);
+				// graphics.lineTo(x, y + h);
+				// graphics.lineTo(x, y);
+				// graphics.endFill();
+
+			}
+
+			renderer.render(stage);
+		}
+
+		function run() {
+			rafs++
+
+			var now = performance.now();
+
+			draw();
+
+			var lapsed = now - timeStart;
+			if (lapsed < 5000) {
+				requestAnimationFrame(run);
+			} else {
+				console.timeEnd('run');
+				console.log('Number of Rafs', rafs);
+				console.log('Time per Rafs', (lapsed / rafs).toFixed(2), 'ms');
+
+				console.log('Total Rects', rects);
+				console.log('Rects / second', (rects / lapsed * 1000).toFixed(2));
+
+				console.log('Rects / 16.67ms', (rects / lapsed * 60).toFixed(2));
+				console.log('Done!!');
+			}
+		}
+
+		function start() {
+			console.log('Test start!');
+			timeStart = performance.now();
+			console.time('run');
+
+			run();
+		}
+
+		setTimeout(start, 500);
+
+	</script>
+</body>
+</html>
