@@ -1,14 +1,14 @@
 ## Fastest Rectangles
 
 Some thoughts:
-- How many ways can you draw rectangles in a website (eg. dom, css, 2d canvas, svg, webgl)
-- How is the fastest (maximum number of) rectangles can you draw with each approach?
+- How many ways can you draw rectangles in a browser (eg. dom, css, 2d canvas, svg, webgl)
+- How is the fastest (most number of) rectangles can you draw with each approach?
 
 Task:
 - Paint random rectangles for 5 seconds, find out how fast each approach takes.
 
 Rational:
-- For various reasons, you may want to find a most convinent approach way to draw rectangles. In [Space Radar](github.com/zz85/space-radar), I find myself having > 100K rectanges to paint at times, which is why I'm trying to find which other way I can paint triangles.
+- For various reasons, you may want to find the most convinent approach to draw rectangles. In [Space Radar](github.com/zz85/space-radar), I find myself having > 100K rectanges to paint at times, which is why I'm exploring and testing which ways rectangles can be painted.
 
 Rules:
 - DOM, CSS, Canvas, or WebGL (three.js, stackgl or other libraries) may be used
@@ -20,8 +20,7 @@ Rules:
 - Each draw frame should be within 16.67s (60fps)
 - Goal is to see compare the different approaches
 
-
 ## Current Results
-1. Canvas - ~6.7K rectangles per 60fps frame 
+1. Canvas - ~6.7K rectangles per 60fps frame
 2. PixiJS - 11K Canvas Renderer, 9K WebGL Renderer
 3. PixiJS - Single graphics. 6.5K WebGL, 8K Canvas

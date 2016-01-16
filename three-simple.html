@@ -52,6 +52,8 @@
 			var DISTANCE = 100;
 			var BOX_SIZE = 1;
 
+			var RECTS = 1000;
+
 			init();
 			animate();
 
@@ -82,32 +84,24 @@
 
 				// }
 
-				var material = new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } );
+				// var material = new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } );
 
-				var line = new THREE.LineSegments( geometry, material );
-				scene.add( line );
+				// var line = new THREE.LineSegments( geometry, material );
+				// scene.add( line );
 
 				// Cubes
-
-
-
 				var geometry = new THREE.BoxGeometry( BOX_SIZE, BOX_SIZE, BOX_SIZE );
 				var material = new THREE.MeshBasicMaterial( { color: 0x330033, shading: THREE.FlatShading, overdraw: 0.5 } );
 
 
 
-				for ( var i = 0; i < 100; i ++ ) {
-
+				for ( var i = 0; i < RECTS; i ++ ) {
 					var cube = new THREE.Mesh( geometry, material );
 
-					cube.scale.y = Math.floor( Math.random() * 2 + 1 );
-
 					cube.position.x = Math.random() * DISTANCE - DISTANCE / 2;
-					// cube.position.y = ( cube.scale.y * 50 ) / 2;
-					cube.position.z = Math.random() * DISTANCE - DISTANCE /2;
+					cube.position.z = Math.random() * DISTANCE - DISTANCE / 2;
 
 					scene.add( cube );
-
 				}
 
 
@@ -148,8 +142,12 @@
 
 			function render() {
 
-				var timer = Date.now() * 0.0001;
+				for ( var i = 0; i < RECTS; i ++ ) {
+					var cube = scene.children[i];
 
+					cube.position.x = Math.random() * DISTANCE - DISTANCE / 2;
+					cube.position.z = Math.random() * DISTANCE - DISTANCE / 2;
+				}
 
 				camera.lookAt( scene.position );
 
