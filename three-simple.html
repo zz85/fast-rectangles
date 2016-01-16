@@ -29,7 +29,7 @@
 			var WIDTH = 1024;
 			var HEIGHT = 768;
 
-			var RECTS = 6000;
+			var RECTS = 5000;
 
 
 			function init() {
@@ -47,22 +47,19 @@
 
 				var size = 500, step = 50;
 
-				var geometry = new THREE.Geometry();
+				var rectLineGeometry = new THREE.Geometry();
+
+				var geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+
+				rectLineGeometry.vertices[0] = geometry.vertices[0];
+				rectLineGeometry.vertices[1] = geometry.vertices[1];
+				rectLineGeometry.vertices[2] = geometry.vertices[3];
+				rectLineGeometry.vertices[3] = geometry.vertices[2];
+				rectLineGeometry.vertices[4] = geometry.vertices[0];
 
 
+				var lineMaterial = new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } );
 
-				// 	geometry.vertices.push( new THREE.Vector3( - size, 0, i ) );
-				// 	geometry.vertices.push( new THREE.Vector3(   size, 0, i ) );
-
-				// 	geometry.vertices.push( new THREE.Vector3( i, 0, - size ) );
-				// 	geometry.vertices.push( new THREE.Vector3( i, 0,   size ) );
-
-				// }
-
-				var material = new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } );
-
-				// var line = new THREE.LineSegments( geometry, material );
-				// scene.add( line );
 
 
 				var material = new THREE.MeshBasicMaterial( { color: 0x330033, shading: THREE.FlatShading, overdraw: 0.5 } );
@@ -82,10 +79,12 @@
 				})
 
 				function RectangleMesh() {
-
-
-
 					THREE.Mesh.call(this, geometry, material);
+
+					var line = new THREE.Line( rectLineGeometry, lineMaterial );
+					line.position.z = 0.0001;
+					this.add( line );
+
 				}
 
 				RectangleMesh.prototype = Object.create(THREE.Mesh.prototype);
@@ -105,6 +104,7 @@
 
 
 					var rect = new RectangleMesh( material );
+					rect.position.z = 0.01 * i;
 					scene.add( rect );
 				}
 
