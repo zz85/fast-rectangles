@@ -17,6 +17,7 @@
 	<body>
 
 		<script src="/gits/three.js/build/three.min.js"></script>
+		<script src="/gits/three.js/examples/js/renderers/Projector.js"></script>
 		<script src="/gits/three.js/examples/js/renderers/CanvasRenderer.js"></script>
 
 		<script src="boilerplate.js"></script>
@@ -28,9 +29,6 @@
 
 
 			function init() {
-
-				// camera = new THREE.OrthographicCamera( WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, - 500, 1000 );
-
 				camera = new THREE.OrthographicCamera( WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, - 500, 1000 );
 				camera.position.x = 0;
 				// camera.position.y = 100;
@@ -61,10 +59,6 @@
 
 
 				var geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
-				// individual geometry - 3000
-				// shared geometry - 7.6K
-				// shared material - 9K
-
 
 				var color = new THREE.Color(1, 1, 1);
 				material = new THREE.MeshBasicMaterial({
@@ -92,12 +86,6 @@
 				}
 
 				for ( var i = 0; i < RECTS; i ++ ) {
-					// var cube = new THREE.Mesh( geometry, material );
-					// cube.position.x = Math.random() * WIDTH - WIDTH / 2;
-					// cube.position.z = Math.random() * HEIGHT - HEIGHT / 2;
-					// scene.add( cube );
-
-
 					var rect = new RectangleMesh( material );
 					rect.position.z = 0.01 * i;
 					scene.add( rect );
@@ -142,11 +130,6 @@
 					y = Math.random() * HEIGHT - HEIGHT / 2;
 					w = Math.random() * WIDTH / 4;
 					h = Math.random() * HEIGHT / 4;
-
-					// rect.position.z = x;
-					// rect.position.x = y;
-					// rect.scale.z = w;
-					// rect.scale.x = h;
 
 					rect.setRect(x, y, w, h);
 

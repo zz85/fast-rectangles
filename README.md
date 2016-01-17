@@ -29,13 +29,16 @@ These numbers are estimated number of triangles that can be drawn in a single 60
 2. PixiJS - 3.1K Canvas Renderer, 2.3K WebGL Renderer
 3. PixiJS - Single graphics. 1.8K WebGL, 2.4K Canvas
 4. Three.js (Rect as mesh)
-WebGl Renderer
-   - each mesh as individual geometry  - 3K
-   - shared geometry - 7.6K
-   - shared material - 9K (3K for canvas renderer)
-   - Add rect strokes (fill only, no lines) - 1.6K
-   - Almost similar using buffergeometry + line buffers (3b)
-   - 16K
+
+- each mesh as individual geometry (WebGl Renderer)
+   - no shared geometry & no shared material - 1K
+	   - shared geometry - 1.8K
+	   - shared material - 3.7K (1.1K for canvas renderer)
+	   - Add rect strokes (fill only, no lines) - 1.7K
+	   - Almost similar using buffergeometry + line buffers (1.7K)
+
+	- single buffer geometry
+		- 5K
 
 ## To come
 
