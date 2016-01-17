@@ -10,19 +10,21 @@ Task:
 Rational:
 - For various reasons, you may want to find the most convinent approach to draw rectangles. In [Space Radar](github.com/zz85/space-radar), I find myself having > 100K rectanges to paint at times, which is why I'm exploring and testing which ways rectangles can be painted.
 
-Rules:
+Tests Cases:
 - DOM, CSS, Canvas, or WebGL (three.js, stackgl or other libraries) may be used
-- Stroke them
 - Fill them
+- Stroke them
 - Rectangle should be updatable by JS
 - Rectangles are defined by (x, y, w, h)
+- Canvas dimension is 1024x768.
+- Random rects dimensions is width/4, height/4
 - They are in units as fraction of the screen size (0..1)
 - Each draw frame should be within 16.67s (60fps)
 - Goal is to see compare the different approaches
 
 ## Current Results
 
-These numbers are estimated number of triangles that can be drawn in a single 60fps frame (which has only 16.67ms rendering time)
+These numbers are estimated number of triangles that can be drawn in a single 60fps frame (which has only 16.67ms rendering time). As with all benchmarks, these numbers should be taken with a grain of salt. It always depends on what your use case is and YMMV.
 
 0. Headless - (overheads of Math.random) 76K
 1. Canvas - 2.7K rectangles
@@ -37,14 +39,12 @@ These numbers are estimated number of triangles that can be drawn in a single 60
 	   - Add rect strokes (fill only, no lines) - 1.7K
 	   - Almost similar using buffergeometry + line buffers (1.7K)
 
-	- single buffer geometry
+	- Single Buffer Geometry
 		- 5K
 
 ## To come
 
 ## Others
 - Indexed Buffers?
-- Rects using a shared Three.js geometry
-- Buffered Geometry
 - Instanced Geometry
 - Using point sprites
