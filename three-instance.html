@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>three.js webgl - instanced particles - billboards - colors</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+			color: #ffffff;
+			font-family: Monospace;
+			font-size: 13px;
+			text-align: center;
+			font-weight: bold;
+			background-color: #000000;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		#info {
+			position: absolute;
+			top: 0px;
+			width: 100%;
+			padding: 5px;
+		}
+
+		a {
+			color: #ffffff;
+		}
+
+		#oldie a {
+			color: #da0;
+		}
+
+		#notSupported {
+			width: 50%;
+			margin: auto;
+			border: 2px red solid;
+			margin-top: 20px;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="info">
+		<div id="notSupported" style="display:none">Sorry your graphics card + browser does not support hardware instancing</div>
+	</div>
+
+	<script src="boilerplate.js"></script>
+
+	<script src="/gits/three.js/build/three.min.js"></script>
+	<script src="/gits/three.js/examples/js/Detector.js"></script>
+
+	<script id="vshader" type="x-shader/x-vertex">
+		precision highp float;
+		uniform mat4 modelViewMatrix;
+		uniform mat4 projectionMatrix;
+
+		attribute vec3 position;
+		attribute vec2 uv;
+		attribute vec3 normal;
+
+		attribute vec3 translate;
+		attribute vec2 scale;
+		attribute vec3 color;
+
+		varying vec3 vColor;
+
+		void main() {
+
+
+			vec3 p = position;
+			// p.xy *= scale.xy;
+			p.x *= scale.x;
+			p.y *= scale.y;
+
+			vec4 mvPosition = modelViewMatrix * vec4( p + translate, 1.0 );
+			// mvPosition.xyz += p;
+			//  * scale
+
+			vColor = color;
+			gl_Position = projectionMatrix * mvPosition;
+
+		}
+
+	</script>
+	<script id="fshader" type="x-shader/x-fragment">
+		precision highp float;
+
+		varying vec3 vColor;
+
+		void main() {
+
+			// vec4 diffuseColor = texture2D( map, vUv );
+
+			// vec3 vColor = vec3(0.4, 0.5, 0.4);
+			// vec4 diffuseColor = vec4( 0.8, .8, .4, 1.);
+			gl_FragColor = vec4( vColor, 1. );
+
+			// if ( diffuseColor.w < 0.5 ) discard;
+
+		}
+	</script>
+
+	<script>
+
+		var container;
+
+		var camera, scene, renderer;
+		var geometry, material, mesh;
+		var particleCount = 20000;
+		var translateArray = new Float32Array( particleCount * 3 );
+		var scaleArray = new Float32Array( particleCount * 2 );
+		var colorsArray = new Float32Array( particleCount * 3 );
+
+
+		function init() {
+
+			if ( !Detector.webgl ) {
+
+				Detector.addGetWebGLMessage();
+				return false;
+
+			}
+
+			renderer = new THREE.WebGLRenderer();
+
+			if ( renderer.extensions.get( 'ANGLE_instanced_arrays' ) === false ) {
+				document.getElementById( "notSupported" ).style.display = "";
+				return false;
+			}
+
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+
+			var color = new THREE.Color( 0xffffff );
+
+			camera = new THREE.OrthographicCamera( WIDTH / - 2, WIDTH / 2, HEIGHT / 2, HEIGHT / - 2, - 500, 1000 );
+			camera.position.z = 100;
+
+			scene = new THREE.Scene();
+
+			geometry = new THREE.InstancedBufferGeometry();
+			geometry.copy( new THREE.PlaneBufferGeometry( 1, 1, 1, 1 ) );
+
+			lineGeometry = new THREE.InstancedBufferGeometry();
+			lineBuffer = new THREE.BufferAttribute( new Float32Array( 8 * 3 ), 3 );
+
+			function setRect(lines) {
+				var ax = -0.5;
+				var ay = -0.5;
+				var bx =  0.5;
+				var by = -0.5;
+				var dx =  0.5;
+				var dy =  0.5;
+				var cx = -0.5;
+				var cy =  0.5;
+				var z = 0;
+
+				lines.setXYZ(0, ax, ay, z); // a
+				lines.setXYZ(1, bx, by, z); // b
+
+				lines.setXYZ(2, bx, by, z); // b
+				lines.setXYZ(3, dx, dy, z); // d
+
+				lines.setXYZ(4, dx, dy, z); // d
+				lines.setXYZ(5, cx, cy, z); // c
+
+				lines.setXYZ(6, cx, cy, z); // c
+				lines.setXYZ(7, ax, ay, z); // a
+			}
+
+			setRect(lineBuffer);
+
+			lineGeometry.addAttribute( 'position', lineBuffer );
+
+			translateArray = new Float32Array( particleCount * 3 );
+			scaleArray = new Float32Array( particleCount * 2 );
+			colorsArray = new Float32Array( particleCount * 3 );
+
+			var x, y, w, h;
+
+			for ( var i = 0, i3 = 0, l = particleCount; i < l; i ++, i3 += 3 ) {
+
+				x = Math.random() * WIDTH - WIDTH / 2;
+				y = Math.random() * HEIGHT - HEIGHT / 2;
+
+				translateArray[ i3 + 0 ] = x;
+				translateArray[ i3 + 1 ] = y;
+				translateArray[ i3 + 2 ] = i * 0.1;
+
+			}
+
+			for ( var i = 0, i2 = 0, l = particleCount; i < l; i ++, i2 += 2 ) {
+
+				w = Math.random() * WIDTH / 4;
+				h = Math.random() * HEIGHT / 4;
+
+				scaleArray[ i2 + 0 ] = w;
+				scaleArray[ i2 + 1 ] = h;
+
+			}
+
+			for ( var i = 0, i3 = 0, l = particleCount; i < l; i ++, i3 += 3 ) {
+
+				// color.setHSL( Math.random(), 1 - i / l * 0.3, 0.5 );
+
+				colorsArray[ i3 + 0 ] = color.r;
+				colorsArray[ i3 + 1 ] = color.g;
+				colorsArray[ i3 + 2 ] = color.b;
+			}
+
+			geometry.addAttribute( "translate", new THREE.InstancedBufferAttribute( translateArray, 3, 1 ).setDynamic( true ) );
+
+			geometry.addAttribute( "scale", new THREE.InstancedBufferAttribute( scaleArray, 2, 1 ).setDynamic( true ) );
+			geometry.addAttribute( "color", new THREE.InstancedBufferAttribute( colorsArray, 3, 1 ).setDynamic( true ) );
+
+			// Line Geometry
+
+			lineColors = new Float32Array( particleCount * 3 ).fill(0);
+
+			lineGeometry.addAttribute( "translate", new THREE.InstancedBufferAttribute( translateArray, 3, 1 ).setDynamic( true ) );
+
+			lineGeometry.addAttribute( "scale", new THREE.InstancedBufferAttribute( scaleArray, 2, 1 ).setDynamic( true ) );
+
+			lineGeometry.addAttribute( "color", new THREE.InstancedBufferAttribute( lineColors, 3, 1 ).setDynamic( true ) );
+
+			material = new THREE.RawShaderMaterial( {
+				uniforms: {
+					// map: { type: "t", value: THREE.ImageUtils.loadTexture( "textures/sprites/circle.png" ) }
+				},
+				vertexShader: document.getElementById( 'vshader' ).textContent,
+				fragmentShader: document.getElementById( 'fshader' ).textContent,
+				depthTest: true,
+				depthWrite: true
+			} );
+
+			mesh = new THREE.Mesh( geometry, material );
+			lineMesh = new THREE.LineSegments( lineGeometry, material );
+
+			lineMesh.position.z = 0.0001;
+
+			mesh.scale.multiplyScalar(1);
+			scene.add( mesh );
+			scene.add( lineMesh )
+
+			// renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( WIDTH, HEIGHT );
+			container.appendChild( renderer.domElement );
+
+			//
+
+			// window.addEventListener( 'resize', onWindowResize, false );
+
+			return true;
+
+		}
+
+		function onWindowResize( event ) {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+
+		function draw() {
+			var time = performance.now() * 0.0005;
+
+			camera.lookAt( scene.position );
+
+			var translates = geometry.getAttribute( 'translate' );
+			var scales = geometry.getAttribute( 'scale' );
+			var colors = geometry.getAttribute( 'color' );
+
+
+			for ( var i = 0, i2 = 0, i3 = 0, l = particleCount;
+				i < l;
+				i ++, i2 += 2, i3 += 3 ) {
+
+				var x = Math.random() * WIDTH - WIDTH / 2;
+				var y = Math.random() * HEIGHT - HEIGHT / 2;
+				var w = Math.random() * WIDTH / 4;
+				var h = Math.random() * HEIGHT / 4;
+
+				translateArray[ i3 + 0 ] = x;
+				translateArray[ i3 + 1 ] = y;
+				translateArray[ i3 + 2 ] = -i * 0.01;
+
+				scaleArray[ i2 + 0 ] = w;
+				scaleArray[ i2 + 1 ] = h;
+
+			}
+
+			renderer.setClearColor( 0xf0f0f0 );
+
+			translates.needsUpdate = true;
+			scales.needsUpdate = true;
+			// colors.needsUpdate = true;
+
+			lineGeometry.getAttribute( 'translate' ).needsUpdate = true;
+			lineGeometry.getAttribute( 'scale' ).needsUpdate = true;
+
+
+
+			// renderer.clear();
+			renderer.render( scene, camera );
+			rects += particleCount;
+
+		}
+
+		init();
+		setTimeout(start, 500);
+
+
+	</script>
+
+</body>
+</html>
