@@ -24,7 +24,7 @@ Tests Cases:
 
 ## Current Results
 
-These numbers are estimated number of triangles that can be drawn in a single 60fps frame (which has only 16.67ms rendering time). As with all benchmarks, these numbers should be taken with a grain of salt. It always depends on what your use case is and YMMV.
+These numbers are estimated number of triangles that can be drawn in a single 60fps frame (which has only 16.67ms rendering time). As with all benchmarks, these numbers should be taken with a grain of salt. There are many factors depending on different scenarios so milleage always vary.
 
 0. Headless - (overheads of Math.random) 76K
 1. Canvas - 2.7K rectangles
@@ -42,9 +42,11 @@ These numbers are estimated number of triangles that can be drawn in a single 60
 	- Single Buffer Geometry
 		- 5K
 
+	- Instance Geometry
+		- 20K rectangles (Fill + Stroke)
+
 ## To come
 
 ## Others
-- Indexed Buffers?
-- Instanced Geometry
+- Indexed / Interved Buffers?
 - Using point sprites
