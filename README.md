@@ -26,12 +26,11 @@ Tests Cases:
 
 These numbers are estimated number of triangles that can be drawn in a single 60fps frame (which has only 16.67ms rendering time). As with all benchmarks, these numbers should be taken with a grain of salt. There are many factors depending on different scenarios so milleage always vary.
 
-0. Headless - (overheads of Math.random) 76K
-1. Canvas - 2.7K rectangles
-2. PixiJS - 3.1K Canvas Renderer, 2.3K WebGL Renderer
-3. PixiJS - Single graphics. 1.8K WebGL, 2.4K Canvas
-4. Three.js (Rect as mesh)
-
+0. Headless - (overheads of Math.random) 76K (boilerplate.html)
+1. Canvas - 2.7K rectangles (canvas.html)
+2. PixiJS - 3.1K Canvas Renderer, 2.3K WebGL Renderer (pixi.html)
+3. PixiJS - Single graphics. 1.8K WebGL, 2.4K Canvas (pixi-single.html)
+4. Three.js (Rect as mesh) (three-simple.html)
 - each mesh as individual geometry (WebGl Renderer)
    - no shared geometry & no shared material - 1K
 	   - shared geometry - 1.8K
@@ -39,11 +38,11 @@ These numbers are estimated number of triangles that can be drawn in a single 60
 	   - Add rect strokes (fill only, no lines) - 1.7K
 	   - Almost similar using buffergeometry + line buffers (1.7K)
 
-	- Single Buffer Geometry
-		- 5K
+4. Single Buffer Geometry (three-buffer.html)
+	- 5K
 
-	- Instance Geometry
-		- 20K rectangles (Fill + Stroke)
+5. Instance Geometry (three-instance.html)
+	- 20K rectangles (Fill + Stroke)
 
 ## To come
 
