@@ -217,7 +217,17 @@
 
 			// Line Geometry
 
-			lineColors = new Float32Array( particleCount * 3 ).fill(0);
+			lineColors = new Float32Array( particleCount * 3 );
+
+			if (lineColors.fill) {
+				lineColors.fill(0);
+			} else {
+				for (var i = 0; i < lineColors.length; i++) {
+					lineColors[i] = 0;
+				}
+			}
+
+
 
 			lineGeometry.addAttribute( "translate", new THREE.InstancedBufferAttribute( translateArray, 3, 1 ).setDynamic( true ) );
 

@@ -7,7 +7,7 @@ var total = 0;
 var rafs = 0;
 var rects = 0;
 var results = document.createElement('pre');
-results.style.cssText = 'position: fixed; top: 10px; left: 10px; font-size: 10px; z-index: 999; background: rgba(255, 255, 255, 0.5);';
+results.style.cssText = 'position: fixed; top: 10px; left: 10px; font-size: 10px; z-index: 999; background: rgba(255, 255, 255, 0.5); text-align: left; color: #000;';
 
 /* Implement your draw function !! */
 
