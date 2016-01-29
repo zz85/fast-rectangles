@@ -38,10 +38,10 @@ These numbers are estimated number of triangles that can be drawn in a single 60
 	   - Add rect strokes (fill only, no lines) - 1.7K
 	   - Almost similar using buffergeometry + line buffers (1.7K)
 
-4. Single Buffer Geometry ([three-buffer.html]([http://zz85.github.io/fast-rectangles/three-buffer.html]))
+5. Single Buffer Geometry ([three-buffer.html](http://zz85.github.io/fast-rectangles/three-buffer.html))
 	- 5K
 
-5. Instance Geometry ([three-instance.html](http://zz85.github.io/fast-rectangles/three-instance.html))
+6. Instance Geometry ([three-instance.html](http://zz85.github.io/fast-rectangles/three-instance.html))
 	- 20K rectangles (Fill + Stroke)
 
 ## To come
