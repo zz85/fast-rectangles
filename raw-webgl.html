@@ -1,0 +1,139 @@
+<html>
+<body>
+	<script src="boilerplate.js"></script>
+	<script>
+    //Must be divisible by 6
+    var RECTANGLE_COUNT = 3e5
+
+    var VERT_SRC = "\
+    precision mediump float;\
+    attribute vec2 weight;\
+    attribute vec4 rect0, rect1, rect2, rect3, rect4, rect5;\
+    uniform vec2 shape;\
+    uniform float shift, scale;\
+    varying vec4 param;\
+    float eq(float a, float b) {\
+      return 1.0 - step(1.0, abs(a - b));\
+    }\
+    void main() {\
+      float index = mod(weight.x + shift, 6.0);\
+      float e0 = eq(index, 0.0),\
+            e1 = eq(index, 1.0),\
+            e2 = eq(index, 2.0),\
+            e3 = eq(index, 3.0),\
+            e4 = eq(index, 4.0),\
+            e5 = eq(index, 5.0);\
+      vec4 rect = rect0 * e0 +\
+                  rect1 * e1 +\
+                  rect2 * e2 +\
+                  rect3 * e3 +\
+                  rect4 * e4 +\
+                  rect5 * e5;\
+      vec2 corner = vec2(e1 + e3 + e5,\
+                         e2 + e4 + e5);\
+      rect.zw = max(2.0/shape, 0.25 * rect.zw);\
+      param = vec4(corner, 2.0/(shape * rect.zw));\
+      gl_Position = vec4(\
+        2.0*(rect.xy + corner * rect.zw) - 1.0,\
+        (weight.y - step(5.5 - shift, weight.x)) * scale + shift/6.0,\
+        1.0);\
+    }"
+
+    var FRAG_SRC = "\
+    precision mediump float;\
+    varying vec4 param;\
+    void main() {\
+      float border = step(param.z, param.x) *\
+                     step(param.w, param.y) *\
+                     step(param.z, 1.0 - param.x) *\
+                     step(param.w, 1.0 - param.y);\
+      gl_FragColor = vec4(border * vec3(1,1,1), 1);\
+    }"
+
+    var canvas = document.createElement('canvas')
+    canvas.width = WIDTH
+    canvas.height = HEIGHT
+    document.body.appendChild(canvas)
+
+    var gl = canvas.getContext('webgl')
+
+    function compileShader(type, src) {
+      var shader = gl.createShader(type)
+      gl.shaderSource(shader, src)
+      gl.compileShader(shader)
+      return shader
+    }
+
+    var program = gl.createProgram()
+    gl.attachShader(program, compileShader(gl.FRAGMENT_SHADER, FRAG_SRC))
+    gl.attachShader(program, compileShader(gl.VERTEX_SHADER, VERT_SRC))
+    gl.bindAttribLocation(program, 0, 'weight')
+    for(var i=0; i<6; ++i) {
+      gl.bindAttribLocation(program, i+1, 'rect' + i)
+    }
+    gl.linkProgram(program)
+    gl.useProgram(program)
+
+    gl.uniform1f(
+      gl.getUniformLocation(program, 'scale'),
+      1.0/(6.0 * RECTANGLE_COUNT))
+    gl.uniform2f(
+      gl.getUniformLocation(program, 'shape'),
+      WIDTH, HEIGHT)
+    var shiftLoc = gl.getUniformLocation(program, 'shift')
+
+    var data = new Float32Array(4 * (RECTANGLE_COUNT + 12))
+    for(var i=0; i<=6+RECTANGLE_COUNT; i+=6) {
+      for(var j=0; j<6; ++j) {
+        var p = 2*(i + j)
+        data[p]   = 5-j
+        data[p+1] = i
+      }
+    }
+    var weightBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, weightBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)
+    gl.enableVertexAttribArray(0)
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 2*4, 0)
+
+
+    var rectBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, rectBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW)
+    for(var i=0; i<6; ++i) {
+      gl.enableVertexAttribArray(i+1)
+      gl.vertexAttribPointer(i+1, 4, gl.FLOAT, false, 4*4, 4*4*i)
+    }
+
+    gl.enable(gl.DEPTH_TEST)
+    gl.clearColor(0, 0, 0, 1)
+
+    //This function initializes the rectangles with random data
+    //It is currently the slowest part of this demo.
+    function fillRects() {
+      for (var i=0; i<data.length; i++) {
+        data[i] = Math.random()
+      }
+    }
+
+    fillRects()
+
+    function draw() {
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+      //Comment this line out to measure just rendering performance
+      fillRects()
+
+      gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW)
+      for(var i=0; i<6; ++i) {
+        gl.uniform1f(shiftLoc, i)
+        gl.drawArrays(gl.TRIANGLES, i, RECTANGLE_COUNT)
+      }
+      rects += RECTANGLE_COUNT
+    }
+
+    setTimeout(start, 500)
+
+	</script>
+</body>
+</html>
