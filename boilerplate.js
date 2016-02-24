@@ -42,8 +42,28 @@ function run() {
 	}
 }
 
+function browser_info() {
+	// Modified from http://stackoverflow.com/questions/5916900/how-can-you-detect-the-version-of-a-browser
+	var ua = navigator.userAgent,
+		tem,
+		M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([0-9.]+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem =  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1] === 'Chrome') {
+        tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+    }
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+    if ((tem = ua.match(/version\/([0-9.]+)/i))!= null) M.splice(1, 1, tem[1]);
+    return M.join(' ');
+}
+
 function stats() {
-	// print some stats, see
+	log('Browser: ' + browser_info());
+
+	// print some GPU stats, see
 	// http://codeflow.org/entries/2016/feb/10/webgl_debug_renderer_info-extension-survey-results/
 	// https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_debug_renderer_info
 
