@@ -42,10 +42,40 @@ function run() {
 	}
 }
 
+function stats() {
+	// print some stats, see
+	// http://codeflow.org/entries/2016/feb/10/webgl_debug_renderer_info-extension-survey-results/
+	// https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_debug_renderer_info
+
+	var canvas = document.createElement('canvas');
+	var gl = canvas.getContext('webgl');
+	var extension = gl.getExtension('WEBGL_debug_renderer_info');
+	if(extension != null){
+		var gpu = extension.UNMASKED_RENDERER_WEBGL;
+		var vendor = extension.UNMASKED_VENDOR_WEBGL;
+
+		var vendor = gl.getParameter(vendor);
+		var renderer = gl.getParameter(gpu);
+
+		log('Vendor: ' + vendor);
+		log('GPU: ' + renderer);
+	}
+
+	var renderer = gl.getParameter(gl.RENDERER);
+	var version = gl.getParameter(gl.VERSION);
+	var glsl = gl.getParameter(gl.SHADING_LANGUAGE_VERSION);
+
+	log('Renderer: ' + renderer);
+	log('Version: ' + version);
+	log('GLSL: ' + glsl);
+}
+
 function start() {
 	document.body.appendChild(results);
+	stats();
 
 	log('Test started!');
+
 	timeStart = performance.now();
 	console.time('run');
 	run();
