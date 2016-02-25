@@ -108,7 +108,7 @@
 
 		var camera, scene, renderer;
 		var geometry, material, mesh;
-		var particleCount = 20000;
+		var particleCount = +(location.hash && location.hash.substring(1)) || 20000;
 		var translateArray = new Float32Array( particleCount * 3 );
 		var scaleArray = new Float32Array( particleCount * 2 );
 		var colorsArray = new Float32Array( particleCount * 3 );
