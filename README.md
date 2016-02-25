@@ -42,7 +42,9 @@ These numbers are estimated number of triangles that can be drawn in a single 60
 	- 5K
 
 6. Instance Geometry ([three-instance.html](http://zz85.github.io/fast-rectangles/three-instance.html))
-	- 20K rectangles (Fill + Stroke)
+	- 26K rectangles (Fill + Stroke)
+
+7. Raw WebGL ([raw-webgl.html](http://zz85.github.io/fast-rectangles/raw-webgl.html))
 
 ## To come
 
